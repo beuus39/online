@@ -4,7 +4,6 @@ import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
 class User extends VuexModule {
     public name: string = ''
     @Mutation
-
     public setName(newName: string): void {
         this.name = newName
     }
