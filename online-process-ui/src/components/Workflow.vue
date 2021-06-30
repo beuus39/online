@@ -3,7 +3,7 @@
     <a-form-item
         v-for="(k, index) in form.getFieldValue('keys')"
         :key="k"
-        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel"
+        v-bind="index === 0 ? layout.formItemLayout : layout.formItemLayoutWithOutLabel"
         :label="index === 0 ? 'Steps' : ''"
         :required="false"
     >
@@ -32,12 +32,12 @@
           @click="() => remove(k)"
       />
     </a-form-item>
-    <a-form-item v-bind="formItemLayoutWithOutLabel">
+    <a-form-item v-bind="layout.formItemLayoutWithOutLabel">
       <a-button type="dashed" style="width: 60%" @click="add">
         <a-icon type="plus" /> Add field
       </a-button>
     </a-form-item>
-    <a-form-item v-bind="formItemLayoutWithOutLabel">
+    <a-form-item v-bind="layout.formItemLayoutWithOutLabel">
       <a-button type="primary" html-type="submit">
         Submit
       </a-button>
@@ -48,11 +48,65 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator"
 
-@Component({
-  name: 'Workflow'
-})
+let i = 0
+@Component
 export default class Workflow extends Vue {
+  private form: any
+  private layout: any = {
+    formItemLayout: {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 20 }
+      }
+    },
+    formItemLayoutWithOutLabel: {
+      wrapperCol: {
+        xs: { span: 24, offset: 0 },
+        sm: { span: 20, offset: 4 },
+      }
+    }
+  }
 
+  beforeCreate() {
+    this.form = this.$form.createForm(this, { name: 'dynamic_form_item'})
+    this.form.getFieldDecorator('keys', { initialValue: [], preserve: true })
+  }
+
+  remove(k: any): any {
+    const { form } = this
+    const keys = form.getFieldsValue('keys')
+    if (keys.length === 1) {
+      return
+    }
+    form.setFieldsValue({
+      keys: keys.filter((key: any) => key !== k)
+    })
+  }
+
+  add() {
+    debugger
+    const { form } = this
+    const keys = form.getFieldsValue('keys')
+    const nextKeys = keys.concat(i++)
+    form.setFieldsValue({
+      keys: nextKeys
+    })
+  }
+
+  handleSubmit(e: { preventDefault: () => void }) {
+    e.preventDefault()
+    this.form.validateFields((err: any, values: { keys: any; names: any }) => {
+      if (!err) {
+        const { keys, names } = values
+        console.log("Received values of form: ", values)
+        console.log("Merged values: ", keys.map((key: string | number) => names[key]))
+      }
+    })
+  }
 }
 // let id = 0;
 // export default {

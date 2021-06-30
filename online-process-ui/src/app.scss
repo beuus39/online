@@ -1,0 +1,16 @@
+$body-bg: #000;
+$body-color: #111;
+
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+}
+//
+//@import "node_modules/bootstrap/scss/bootstrap";
+//@import "node_modules/bootstrap-vue/src/index";

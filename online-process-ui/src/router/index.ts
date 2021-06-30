@@ -21,7 +21,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/workflow',
     name: 'Workflow',
-    component: () => import('../components/Workflow.vue')
+    component: () => import('../components/WorkflowForm.vue')
   }
 ]
 
