@@ -6,7 +6,6 @@ class User extends VuexModule {
     @Mutation
     public setName(newName: string): void {
         this.name = newName
-        debugger
     }
 
     @Action

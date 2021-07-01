@@ -40,7 +40,7 @@ export class DepositInvoiceService {
             issuedDate: depositInvoice.issuedDate,
             project: depositInvoice.project,
             businessUnit: depositInvoice.businessUnit,
-            assignee: null,
+            assignee: depositInvoice.assignee,
             workflow: newRevisionWorkflow,
             isActivated: true,
         })

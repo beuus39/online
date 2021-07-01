@@ -27,6 +27,11 @@ const routes: Array<RouteConfig> = [
     path: '/dynamic',
     name: 'Dynamic',
     component: () => import('../components/DynamicForm.vue')
+  },
+  {
+    path: '/deposit-invoice',
+    name: 'Deposit',
+    component: () => import('../components/deposit/AddDepositForm.vue')
   }
 ]
 
