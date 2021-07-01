@@ -181,6 +181,9 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
+import { namespace } from "vuex-class";
+
+const workflow = namespace("workflow")
 
 @Component
 export default class WorkflowForm extends Vue {

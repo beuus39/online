@@ -22,6 +22,11 @@ const routes: Array<RouteConfig> = [
     path: '/workflow',
     name: 'Workflow',
     component: () => import('../components/WorkflowForm.vue')
+  },
+  {
+    path: '/dynamic',
+    name: 'Dynamic',
+    component: () => import('../components/DynamicForm.vue')
   }
 ]
 
