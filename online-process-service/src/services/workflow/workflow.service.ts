@@ -45,7 +45,10 @@ export class WorkflowService {
     }
 
     async getAllWorkflows(): Promise<Workflow[]> {
-        return this.workflowModel.find({status: AppConstant.STATUS_PUBLISHED}).exec();
+        return this.workflowModel.find({$and: [
+            {status: AppConstant.STATUS_PUBLISHED},
+            { revision: null }
+        ]}).exec();
     }
 
     async updateWorkflow(workflowId: string): Promise<Workflow> {

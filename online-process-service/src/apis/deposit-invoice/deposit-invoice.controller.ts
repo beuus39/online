@@ -10,7 +10,6 @@ export class DepositInvoiceController {
     ) {}
 
     @Post()
-    @Post()
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ description: "Create deposit"})
     @ApiOkResponse({})

@@ -71,6 +71,12 @@
           <v-btn text>
             Cancel
           </v-btn>
+          <v-btn
+              color="danger"
+              @click="submit"
+          >
+            Test
+          </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="2">
@@ -183,21 +189,39 @@
 import {Component, Vue} from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-const workflow = namespace("workflow")
+const workflow = namespace("Workflow")
+const user = namespace("User")
 
 @Component
 export default class WorkflowForm extends Vue {
+  mounted() {
+    this.findAllWorkflows()
+    console.log("Name check: ", this.name)
+    this.updateName("Nguyen Thanh Cong")
+    console.log("update name check: ", this.name)
+  }
+
+  @user.State
+  public name!: string;
+  @user.Action
+  public updateName!: (name: string) => void
+
+  @workflow.State
+  public workflows!: Array<any> | undefined;
+  @workflow.Action
+  public findAllWorkflows!: () => void
+
   private workflow: any = {
     valid: true,
     name: '',
     nameRules: [
-      v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+        (v: any) => !!v || 'Name is required',
+        (v: string | any[]) => (v && v.length <= 10) || 'Name must be less than 10 characters',
     ],
     email: '',
     emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        (v: any) => !!v || 'E-mail is required',
+        (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
     select: null,
     items: [
@@ -209,7 +233,8 @@ export default class WorkflowForm extends Vue {
     checkbox: false,
   }
 
-  validate() {
+
+/*  validate() {
     this.$refs.form.validate()
   }
 
@@ -219,7 +244,7 @@ export default class WorkflowForm extends Vue {
 
   resetValidation () {
     this.$refs.form.resetValidation()
-  }
+  }*/
 
   private es: any = {
     e1: 1
@@ -227,7 +252,7 @@ export default class WorkflowForm extends Vue {
 
   submit(e: any) {
     e.preventDefault()
-    alert(JSON.stringify(this.workflow))
+    console.log(JSON.stringify(this.workflows))
   }
 }
 </script>

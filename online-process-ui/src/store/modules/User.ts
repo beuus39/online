@@ -1,11 +1,12 @@
 import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
 
-@Module({ namespaced: true, name: "user"})
+@Module({ namespaced: true })
 class User extends VuexModule {
     public name: string = ''
     @Mutation
     public setName(newName: string): void {
         this.name = newName
+        debugger
     }
 
     @Action
