@@ -8,6 +8,18 @@ class DepositInvoice extends VuexModule {
     public depositInvoice: any
     public isSucceedDeposit: boolean = false
     public depositInvoices: Array<any> = []
+    public workflowOfInvoice: any
+    public currentTransitionState: Array<any> = []
+
+    @Mutation
+    public setWorkflowOfInvoice(workflowInvoice: any): void {
+        this.workflowOfInvoice = workflowInvoice
+    }
+
+    @Mutation
+    public setCurrentTransitionState(state: Array<any>): void {
+        this.currentTransitionState = [...state]
+    }
 
     @Mutation
     public setDepositInvoice(addDepositInvoice: any): void {
@@ -61,8 +73,18 @@ class DepositInvoice extends VuexModule {
         console.log("Assignee:: ", assignee)
         axios.get(`${AppConstant.BASE_URL}/deposit-invoices/${invoiceId}/workflows/${assignee}`)
             .then((res) => {
+                const nextStep = res.data.workflow.nextStep
                 console.log("Response Data:: ", JSON.stringify(res.data))
+                console.log("NextStep:: ", JSON.stringify(nextStep))
                 this.context.commit("setDepositInvoice", res.data)
+                axios.get(`${AppConstant.BASE_URL}/workflows/${res.data.workflow.id}/${res.data.workflow.revision}`)
+                    .then((res) => {
+                        const states = Object.keys(res.data.transition[`${nextStep}`])
+                        console.log("States:: ", JSON.stringify(states))
+
+                        this.context.commit("setWorkflowOfInvoice", res.data)
+                        this.context.commit("setCurrentTransitionState", states)
+                    }).catch((err) => this.context.commit("setWorkflowOfInvoice", undefined))
             }).catch((err) => this.context.commit("setDepositInvoice", undefined))
     }
 
