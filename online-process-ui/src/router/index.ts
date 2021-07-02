@@ -32,6 +32,16 @@ const routes: Array<RouteConfig> = [
     path: '/deposit-invoice',
     name: 'Deposit',
     component: () => import('../components/deposit/AddDepositForm.vue')
+  },
+  {
+    path: '/deposit/:id',
+    name: 'deposit',
+    component: () => import('../components/deposit/EditDepositForm.vue')
+  },
+  {
+    path: '/deposit-invoice/list',
+    name: 'Deposit List',
+    component: () => import('../components/deposit/ListDepositDatatable.vue')
   }
 ]
 

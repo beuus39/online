@@ -27,10 +27,15 @@ export class DepositInvoiceService {
                 status: cloneWorkflow.status
             })
             const createdWorkflowRevision = await addRevisionWorkflow.save();
+            const assignees = depositInvoice?.workflow?.assignee?.split("|") ?? []
+
             newRevisionWorkflow = {
                 id: createdWorkflowRevision._id,
                 revision: createdWorkflowRevision.revision,
-                assignee: null,
+                assignee: {
+                    id: assignees[0],
+                    name: assignees[1]
+                },
                 nextStep: "2",
                 previousStep: null
             }
@@ -45,5 +50,17 @@ export class DepositInvoiceService {
             isActivated: true,
         })
         return saveDepositInvoice.save();
+    }
+
+    async getAllDepositInvoices(): Promise<Array<DepositInvoice>> {
+        return this.depositInvoiceModel.find().exec()
+    }
+
+    async getDepositOfAssignee(assignee: string): Promise<Array<DepositInvoice>> {
+        return this.depositInvoiceModel.find({ "workflow.assignee.id": assignee }).exec()
+    }
+
+    async getInvoiceByIdAndAssignee(id: string, assignee: string): Promise<DepositInvoice> {
+        return this.depositInvoiceModel.findOne({ $and: [ { "workflow.assignee.id": assignee}, { _id: id }]})
     }
 }

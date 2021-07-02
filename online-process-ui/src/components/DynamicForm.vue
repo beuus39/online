@@ -38,7 +38,7 @@ export default class DynamicForm extends Vue {
     this.applicants.splice(counter, 1)
   }
 
-  submitVisa(e) {
+  submitVisa(e: any) {
     e.preventDefault()
     alert(JSON.stringify(this.applicants))
   }

@@ -1,4 +1,4 @@
-import {} from "mongoose";
+import { Document } from "mongoose";
 
 export interface Workflow extends Document {
     revision: string,
