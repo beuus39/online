@@ -40,4 +40,22 @@ export class DepositInvoiceController {
     async getInvoiceByIdAndAssignee(@Param("id") id: string, @Param("assignee") assignee: string) {
         return this.depositInvoiceService.getInvoiceByIdAndAssignee(id, assignee)
     }
+
+    @Post("/:id/workflows/:workflowId/assignees/:assignee")
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ description: "Get All deposit"})
+    @ApiOkResponse({})
+    async updateDepositInvoice(@Param("id") id: string,
+                               @Param("workflowId") workflowId: string,
+                               @Param("assignee") assignee: string,
+                               @Body() updateDeposit: {description: string, step: string, action: string}) {
+        return this.depositInvoiceService.updateDepositInvoice({
+            id,
+            workflowId,
+            description: updateDeposit?.description,
+            assignee,
+            step: updateDeposit?.step,
+            action: updateDeposit?.action,
+        })
+    }
 }

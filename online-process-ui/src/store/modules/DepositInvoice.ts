@@ -10,6 +10,12 @@ class DepositInvoice extends VuexModule {
     public depositInvoices: Array<any> = []
     public workflowOfInvoice: any
     public currentTransitionState: Array<any> = []
+    public currentStep: any
+
+    @Mutation
+    public setCurrentStep(step: string) {
+        this.currentStep = step
+    }
 
     @Mutation
     public setWorkflowOfInvoice(workflowInvoice: any): void {
@@ -52,7 +58,7 @@ class DepositInvoice extends VuexModule {
 
     @Action
     public getAllDepositInvoices(): void {
-        axios.get(`${AppConstant.BASE_URL}/deposit-invoices/workflows/60dbf6562b51e45a9ca625a7`)
+        axios.get(`${AppConstant.BASE_URL}/deposit-invoices/workflows/60dbf6562b51e45a9ca625af`)
             .then((res) => {
                 const response = res.data.map((invoice: any) => ({
                     id: invoice._id,
@@ -69,7 +75,7 @@ class DepositInvoice extends VuexModule {
     }
 
     @Action
-    public getDepositInvoice(invoiceId: string, assignee: string = "60dbf6562b51e45a9ca625a7"): void {
+    public getDepositInvoice(invoiceId: string, assignee: string = "60dbf6562b51e45a9ca625af"): void {
         console.log("Assignee:: ", assignee)
         axios.get(`${AppConstant.BASE_URL}/deposit-invoices/${invoiceId}/workflows/${assignee}`)
             .then((res) => {
@@ -84,8 +90,18 @@ class DepositInvoice extends VuexModule {
 
                         this.context.commit("setWorkflowOfInvoice", res.data)
                         this.context.commit("setCurrentTransitionState", states)
+                        this.context.commit("setCurrentStep", nextStep)
                     }).catch((err) => this.context.commit("setWorkflowOfInvoice", undefined))
             }).catch((err) => this.context.commit("setDepositInvoice", undefined))
+    }
+
+    @Action
+    public updateDepositInvoice(update: {id: string, workflowId: string, assignee: string, updateDeposit: any}): void {
+        debugger
+        axios.post(`${AppConstant.BASE_URL}/deposit-invoices/${update.id}/workflows/${update.workflowId}/assignees/${update.assignee}`,
+            update.updateDeposit)
+            .then((res) => this.context.commit("setDepositInvoice", res.data))
+            .catch((err) => this.context.commit("setDepositInvoice", undefined))
     }
 
 }
