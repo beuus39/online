@@ -42,6 +42,11 @@ const routes: Array<RouteConfig> = [
     path: '/deposit-invoice/list',
     name: 'Deposit List',
     component: () => import('../components/deposit/ListDepositDatatable.vue')
+  },
+  {
+    path: '/workflow/create',
+    name: 'Create Workflow',
+    component: () => import('../components/workflow/CreateWorkflow.vue')
   }
 ]
 
