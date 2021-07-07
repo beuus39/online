@@ -16,4 +16,8 @@ export class UserService {
     async getAllUsers(): Promise<User[]> {
         return this.userModel.find().exec()
     }
+
+    async getUserInApprovalList(approvalList: Array<string>): Promise<User[]> {
+        return this.userModel.find({_id: { $in: approvalList}}).exec()
+    }
 }

@@ -189,7 +189,9 @@ export default class AddDepositForm extends Vue {
       },
     }
     console.log("Inserted dtos:: ", JSON.stringify(depositDto))
+    console.log("Deposit approval:: ", this.deposit.approval.split("|")[0])
     this.createDepositInvoice(depositDto)
+    localStorage.setItem("userId", this.deposit.approval.split("|")[0])
     if (this.isSucceedDeposit) {
       this.$router.push("/deposit-invoice/list")
     }

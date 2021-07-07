@@ -26,4 +26,14 @@ export class UserController {
     async getAllUsers() {
         return this.userService.getAllUsers()
     }
+
+    @Post("/approval")
+    @ApiOperation({
+        description: "Get all users by approval list"
+    })
+    @ApiOkResponse({})
+    @HttpCode(HttpStatus.OK)
+    async getUserInApprovalList(approvalList: Array<string>) {
+        return this.userService.getUserInApprovalList(approvalList)
+    }
 }

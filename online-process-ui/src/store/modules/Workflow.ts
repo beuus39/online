@@ -40,7 +40,6 @@ class Workflow extends VuexModule {
 
     @Action
     public updateApplicants(applicants: Array<any>) {
-        debugger
         this.context.commit('setApplicants', applicants)
     }
 }

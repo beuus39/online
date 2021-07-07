@@ -88,7 +88,6 @@ export default class Workflow extends Vue {
   }
 
   add() {
-    debugger
     const { form } = this
     const keys = form.getFieldsValue('keys')
     const nextKeys = keys.concat(i++)

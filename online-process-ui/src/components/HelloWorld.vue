@@ -16,6 +16,9 @@
   import {Component, Vue} from "vue-property-decorator";
   @Component
   export default class HelloWorld extends Vue {
+    mounted() {
+      localStorage.setItem("userId", "60dbf6552b51e45a9ca6259f")
+    }
     addDepositInvoice() {
       this.$router.push("/deposit-invoice")
     }

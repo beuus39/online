@@ -63,7 +63,6 @@ export default class EditDepositForm extends Vue {
     this.getDepositInvoice(this.id, "60dbf6562b51e45a9ca625a7")
     this.workflowId = this.workflowOfInvoice?._id ?? null
     this.step = this.currentStep
-    debugger
     console.log("Created:: ", JSON.stringify(this.depositInvoice))
     console.log("Created currentTransitionState:: ", JSON.stringify(this.currentTransitionState))
   }
@@ -82,9 +81,9 @@ export default class EditDepositForm extends Vue {
     const approval = this.updateInvoice.approval
     const description = this.updateInvoice.description
     const step = this.step
-    debugger
     this.updateDepositInvoice({ id: this.id, workflowId: wfId, assignee: approval,
       updateDeposit: { description, step, action: state}})
+    localStorage.setItem("userId", approval.split("|")[0])
     alert(`Welcome next step ${index}`)
     this.$router.push("/deposit-invoice/list")
   }
